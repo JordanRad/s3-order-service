@@ -9,6 +9,6 @@ Microservices E-commerce project consists of several microservices. Together the
 GET:     /api/orders/getAll
 GET:     /api/orders/getAllNew
 GET:     /api/orders/getByOrderNumber/{orderNumber}
-POST:     /api/orders/
+POST:    /api/orders/
 ```
 
