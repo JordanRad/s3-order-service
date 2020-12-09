@@ -2,7 +2,6 @@ package com.example.orderservice.controllers;
 
 import com.example.orderservice.models.Order;
 import com.example.orderservice.models.OrderRequest;
-import com.example.orderservice.models.Product;
 import com.example.orderservice.models.Status;
 import com.example.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class OrderController {
         List<Order> orders = new ArrayList<>();
         repository.findAll().forEach(orders::add);
 
-        return new ResponseEntity(orders , HttpStatus.OK);
+        return new ResponseEntity(orders, HttpStatus.OK);
 
     }
 
@@ -37,7 +36,7 @@ public class OrderController {
         List<Order> orders = new ArrayList<>();
         repository.findAllNewOrders().forEach(orders::add);
 
-        return new ResponseEntity(orders , HttpStatus.OK);
+        return new ResponseEntity(orders, HttpStatus.OK);
 
     }
 
@@ -46,8 +45,9 @@ public class OrderController {
 
         Order order = repository.findByOrderNumber(orderNumber);
 
-        return order!=null?new ResponseEntity(order, HttpStatus.OK):new ResponseEntity("No such order", HttpStatus.NOT_FOUND);
+        return order != null ? new ResponseEntity(order, HttpStatus.OK) : new ResponseEntity("No such order", HttpStatus.NOT_FOUND);
     }
+
     @PostMapping("/")
     public ResponseEntity<?> createNewOrder(@RequestBody OrderRequest request) {
 
@@ -57,12 +57,12 @@ public class OrderController {
         order.setOrderNumber(request.getOrderNumber());
         order.setShippingAddress(request.getUser().getAddress());
         order.setUserID(request.getUser().getId());
-       order.setProducts(request.getProducts());
+        order.setProducts(request.getProducts());
         order.setStatus(Status.NEW);
 
         Order savedOrder = repository.save(order);
 
-        return new ResponseEntity<>(String.format("Your order is sent successfully, %s",savedOrder.getOrderNumber()),HttpStatus.OK);
+        return new ResponseEntity<>(String.format("Your order is sent successfully, %s", savedOrder.getOrderNumber()), HttpStatus.OK);
     }
 
 }
