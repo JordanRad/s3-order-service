@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,26 @@ public class OrderController {
 
     }
 
+    @GetMapping("/getAllProcessing")
+    public ResponseEntity<?> getAllProcessingOrders() {
+
+        List<Order> orders = new ArrayList<>();
+        repository.findAllProcessingOrders().forEach(orders::add);
+
+        return new ResponseEntity(orders, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/getAllCompleted")
+    public ResponseEntity<?> getAllCompletedOrders() {
+
+        List<Order> orders = new ArrayList<>();
+        repository.findAllCompletedOrders().forEach(orders::add);
+
+        return new ResponseEntity(orders, HttpStatus.OK);
+
+    }
+
     @GetMapping("/getByOrderNumber/{orderNumber}")
     public ResponseEntity<?> getOrderByOrderNumber(@PathVariable String orderNumber) {
 
@@ -63,6 +84,17 @@ public class OrderController {
         Order savedOrder = repository.save(order);
 
         return new ResponseEntity<>(String.format("Your order is sent successfully, %s", savedOrder.getOrderNumber()), HttpStatus.OK);
+    }
+    @PutMapping("/{orderNumber}")
+    public ResponseEntity<?> updateOrderStatus(@PathVariable String orderNumber,@RequestBody String status) {
+
+        Order order = repository.findByOrderNumber(orderNumber);
+        if(status.equals(Status.PROCESSING.toString()))order.setStatus(Status.PROCESSING);
+        if(status.equals(Status.CANCELED.toString()))order.setStatus(Status.CANCELED);
+        if(status.equals(Status.COMPLETED.toString()))order.setStatus(Status.COMPLETED);
+
+        Order updatedOrder = repository.save(order);
+        return new ResponseEntity<>(String.format("Order with number %s was set to %s", updatedOrder.getOrderNumber(),updatedOrder.getStatus().toString()), HttpStatus.OK);
     }
 
 }
