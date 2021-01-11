@@ -41,12 +41,12 @@ public class OrderController {
 
     }
 
-    @GetMapping("/getAllProcessing")
-    public ResponseEntity<?> getAllProcessingOrders() {
+    @GetMapping("/getAllNewAndProcessing")
+    public ResponseEntity<?> getAllNewAndProcessingOrders() {
 
         List<Order> orders = new ArrayList<>();
         repository.findAllProcessingOrders().forEach(orders::add);
-
+        repository.findAllNewOrders().forEach(orders::add);
         return new ResponseEntity(orders, HttpStatus.OK);
 
     }
@@ -86,7 +86,7 @@ public class OrderController {
         return new ResponseEntity<>(String.format("Your order is sent successfully, %s", savedOrder.getOrderNumber()), HttpStatus.OK);
     }
     @PutMapping("/{orderNumber}")
-    public ResponseEntity<?> updateOrderStatus(@PathVariable String orderNumber,@RequestBody String status) {
+    public ResponseEntity<?> updateOrderStatus(@PathVariable String orderNumber,@RequestParam String status) {
 
         Order order = repository.findByOrderNumber(orderNumber);
         if(status.equals(Status.PROCESSING.toString()))order.setStatus(Status.PROCESSING);
