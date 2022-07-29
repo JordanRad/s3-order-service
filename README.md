@@ -9,7 +9,7 @@ Microservices E-commerce project consists of several microservices. Together the
 
 📦 Order service  -  see the repository [here](https://github.com/JordanRad/s3-order-service)
 
-🏬 Prodcut service -  see the repository [here](https://github.com/JordanRad/s3-product-service)
+🏬 Product service -  see the repository [here](https://github.com/JordanRad/s3-product-service)
 
 🌐 Discovery server -  see the repository [here](https://github.com/JordanRad/s3-discovery-server)
 
